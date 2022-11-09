@@ -82,7 +82,7 @@ class Login extends Component {
             data-testid="btn-settings"
             onClick={ this.redirectToSettings }
           >
-            Play
+            Configurações
           </button>
         </form>
       </div>
