@@ -25,6 +25,11 @@ class Login extends Component {
     history.push('/playgame');
   };
 
+  redirectToSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   fetchToken = async () => {
     const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
     const request = await fetch(tokenEndpoint);
@@ -68,6 +73,14 @@ class Login extends Component {
             disabled={ isDisabled }
             data-testid="btn-play"
             onClick={ this.fetchToken }
+          >
+            Play
+          </button>
+
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.redirectToSettings }
           >
             Play
           </button>
