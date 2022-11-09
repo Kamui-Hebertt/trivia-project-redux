@@ -27,4 +27,4 @@ export const requestTrivia = () => async (dispatch) => {
   }
 };
 
-https://opentdb.com/api.php?amount=5&token=${seu-token-aqui}
+// https://opentdb.com/api.php?amount=5&token=${seu-token-aqui}
