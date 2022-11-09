@@ -19,11 +19,18 @@ class Login extends Component {
     this.setState({ [target.name]: target.value }, () => this.enableButton());
   };
 
+  redirectTo = () => {
+    const { history } = this.props;
+    history.push('/playgame');
+  };
+
   fetchToken = async () => {
     const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
     const request = await fetch(tokenEndpoint);
     const response = await request.json();
     localStorage.setItem('token', response.token);
+
+    this.redirectTo();
   };
 
   render() {
