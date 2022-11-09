@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Settings extends Component {
   render() {
     return (
-      <div>Tela de configurações</div>
+      <h1 data-testid settings-title>Tela de configurações</h1>
     );
   }
 }
