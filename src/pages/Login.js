@@ -19,6 +19,13 @@ class Login extends Component {
     this.setState({ [target.name]: target.value }, () => this.enableButton());
   };
 
+  fetchToken = async () => {
+    const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
+    const request = await fetch(tokenEndpoint);
+    const response = await request.json();
+    localStorage.setItem('token', response.token);
+  };
+
   render() {
     const { isDisabled, userName, userEmail } = this.state;
     return (
@@ -52,10 +59,10 @@ class Login extends Component {
             type="button"
             disabled={ isDisabled }
             data-testid="btn-play"
+            onClick={ this.fetchToken }
           >
             Play
           </button>
-
         </form>
       </div>
     );
