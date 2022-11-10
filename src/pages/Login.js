@@ -13,7 +13,6 @@ class Login extends Component {
   enableButton = () => {
     const { userName, userEmail } = this.state;
     const isValid = !!userName && !!userEmail;
-    console.log(isValid);
 
     this.setState({ isDisabled: !isValid });
   };

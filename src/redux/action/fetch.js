@@ -18,12 +18,13 @@ export const failedRequest = (payload) => ({
 export const requestTrivia = (token) => async (dispatch) => {
   dispatch(fetchAPI());
   try {
+    // const tokenEndpoint = `https://odb.com/api.php?amount=5&token=${token}`;
     const tokenEndpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const request = await fetch(tokenEndpoint);
     const response = await request.json();
-    dispatch(sucessRequest(response.results));
+    dispatch(sucessRequest(response));
   } catch (error) {
-    dispatch(failedRequest(error));
+    dispatch(failedRequest(`Desculpe, algo errado não está certo! ${error}`));
   }
 };
 
