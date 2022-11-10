@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { userInfo } from '../redux/action';
 
 class Login extends Component {
   state = {
@@ -21,7 +23,8 @@ class Login extends Component {
   };
 
   redirectTo = () => {
-    const { history } = this.props;
+    const { history, userData } = this.props;
+    userData(this.state);
     history.push('/playgame');
   };
 
@@ -82,14 +85,17 @@ class Login extends Component {
             data-testid="btn-settings"
             onClick={ this.redirectToSettings }
           >
-            Play
+            Configurações
           </button>
         </form>
       </div>
     );
   }
 }
+const mapDispatchToProps = (dispatch) => ({
+  userData: (state) => dispatch(userInfo(state)),
+});
 
 Login.propTypes = { history: PropTypes.object }.isRequired;
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);
