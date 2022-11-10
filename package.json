@@ -20,6 +20,7 @@
     "redux-thunk": "^2.4.1"
   },
   "scripts": {
+    "cypress:open": "cypress open --config-file configs/cypress.json",
     "cy": "env CY_CLI=true cypress run",
     "cy:open": "cypress open --e2e --browser chrome",
     "start": "env ESLINT_NO_DEV_ERRORS=true react-scripts start",
