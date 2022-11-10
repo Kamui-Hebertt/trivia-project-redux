@@ -12,6 +12,7 @@ class Game extends Component {
       erro: '',
       responseCode: 0,
       isFetching: true,
+      question: null,
     };
   }
 
@@ -19,9 +20,8 @@ class Game extends Component {
     const { dispatch, history } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
     await dispatch(requestTrivia(tokenFromStorage));
-
-    const { erro, responseCode } = this.props;
-    this.setState({ erro, responseCode, isFetching: false });
+    const { erro, responseCode, questions } = this.props;
+    this.setState({ erro, responseCode, isFetching: false, question: 0, questions });
 
     if (responseCode === 3) {
       localStorage.removeItem('token');
@@ -30,13 +30,40 @@ class Game extends Component {
   }
 
   render() {
-    const { isFetching } = this.state;
+    const {
+      questions,
+      erro,
+      responseCode,
+      isFetching,
+      question } = this.state;
+    const answers = [questions[question]?.correct_answer,
+      questions[question]?.incorrect_answers].flat().sort();
+    // console.log(correct);
     return (
 
       <div>
         <h1>Tela do jogo</h1>
         <Header />
-        {isFetching ? <p>Loading</p> : 'Perguntas'}
+        {
+          isFetching ? <p>Loading</p>
+            : (
+              <div>
+                <h2 data-testid="question-category">{questions[question].category}</h2>
+                <p data-testid="question-text">
+                  {questions[question].question}
+                </p>
+                {' '}
+                {
+                  answers.map((elementQuestion, index) => (
+                    <li key={ index }>
+                      {elementQuestion}
+                    </li>
+                  ))
+                }
+
+              </div>
+            )
+        }
       </div>
     );
   }
