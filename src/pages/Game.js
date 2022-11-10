@@ -23,7 +23,7 @@ class Game extends Component {
     const { erro, responseCode, questions } = this.props;
     this.setState({ erro, responseCode, isFetching: false, question: 0, questions });
 
-    if (responseCode === 3) {
+    if (responseCode === 3 || erro) {
       localStorage.removeItem('token');
       history.push('/');
     }
@@ -36,9 +36,11 @@ class Game extends Component {
       responseCode,
       isFetching,
       question } = this.state;
+
     const answers = [questions[question]?.correct_answer,
       questions[question]?.incorrect_answers].flat().sort();
-    // console.log(correct);
+    console.log(answers);
+
     return (
 
       <div>
