@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { requestTrivia } from '../redux/action/fetch';
+// import { requestTrivia } from '../redux/action/fetch';
 
-const TRES = 3;
+// const TRES = 3;
 
 class Game extends Component {
   constructor(props) {
@@ -11,38 +12,53 @@ class Game extends Component {
 
     this.state = {
       questions: {},
-      erro: '',
-      responseCode: 0,
-      isFetching: true,
+      // erro: '',
+      // responseCode: 0,
+      // isFetching: true,
       questionNumber: null,
     };
   }
 
   async componentDidMount() {
-    const { dispatch, history } = this.props;
+    const { history } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
-    await dispatch(requestTrivia(tokenFromStorage));
-    const { erro, responseCode, questions } = this.props;
-    this.setState({
-      erro,
-      responseCode,
-      isFetching: false,
-      questionNumber: 0,
-      questions });
+    // await dispatch(requestTrivia(tokenFromStorage));
 
-    if (responseCode === TRES || erro) {
+    // const { erro, responseCode, questions } = this.props;
+    // this.setState(() => ({
+    //   erro,
+    //   responseCode,
+    //   isFetching: false,
+    //   questionNumber: 0,
+    //   questions }));
+
+    // if (responseCode === TRES || erro) {
+    //   localStorage.removeItem('token');
+    //   history.push('/');
+    // }
+
+    const URL = `https://opentdb.com/api.php?amount=5&token=${tokenFromStorage}`;
+    const response = await fetch(URL);
+    const data = await response.json();
+    const errorCode = 3;
+    if (data.response_code === errorCode) {
       localStorage.removeItem('token');
       history.push('/');
     }
+    this.setState({
+      questions: data.results,
+      // isFetching: false,
+      questionNumber: 0,
+    });
   }
 
   render() {
     const {
       questions,
-      question,
-      erro,
-      responseCode,
-      isFetching,
+      // question,
+      // erro,
+      // responseCode,
+      // isFetching,
       questionNumber } = this.state;
 
     const answers = [questions[questionNumber]?.correct_answer,
@@ -97,6 +113,12 @@ class Game extends Component {
     );
   }
 }
+
+Game.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 const mapStateToProps = (state) => ({
   questions: state.trivia.questions,
