@@ -21,24 +21,23 @@ class Login extends Component {
     this.setState({ [target.name]: target.value }, () => this.enableButton());
   };
 
-  redirectTo = () => {
+  redirectTo = (str) => {
     const { history, userData } = this.props;
     userData(this.state);
-    history.push('/playgame');
-  };
-
-  redirectToSettings = () => {
-    const { history } = this.props;
-    history.push('/settings');
+    history.push(str);
   };
 
   fetchToken = async () => {
-    const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
-    const request = await fetch(tokenEndpoint);
-    const response = await request.json();
-    localStorage.setItem('token', response.token);
-
-    this.redirectTo();
+    try {
+      const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
+      const request = await fetch(tokenEndpoint);
+      const response = await request.json();
+      localStorage.setItem('token', response.token);
+      this.redirectTo('/playgame');
+    } catch (error) {
+      console.error(error.message);
+      this.redirectTo('/');
+    }
   };
 
   render() {
@@ -82,7 +81,7 @@ class Login extends Component {
           <button
             type="button"
             data-testid="btn-settings"
-            onClick={ this.redirectToSettings }
+            onClick={ () => this.redirectTo('/settings') }
           >
             Configurações
           </button>
