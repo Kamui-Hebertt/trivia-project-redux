@@ -12,7 +12,7 @@ class Game extends Component {
       erro: '',
       responseCode: 0,
       isFetching: true,
-      question: null,
+      questionNumber: null,
     };
   }
 
@@ -21,7 +21,7 @@ class Game extends Component {
     const tokenFromStorage = localStorage.getItem('token');
     await dispatch(requestTrivia(tokenFromStorage));
     const { erro, responseCode, questions } = this.props;
-    this.setState({ erro, responseCode, isFetching: false, question: 0, questions });
+    this.setState({ erro, responseCode, isFetching: false, questionNumber: 0, questions });
 
     if (responseCode === 3 || erro) {
       localStorage.removeItem('token');
@@ -35,11 +35,14 @@ class Game extends Component {
       erro,
       responseCode,
       isFetching,
-      question } = this.state;
+      questionNumber } = this.state;
 
-    const answers = [questions[question]?.correct_answer,
-      questions[question]?.incorrect_answers].flat().sort();
-    console.log(answers);
+    const answers = [questions[questionNumber]?.correct_answer,
+      questions[questionNumber]?.incorrect_answers].flat().sort();
+
+    if (answers[0]) {
+      console.log(answers);
+    }
 
     return (
 
@@ -47,12 +50,12 @@ class Game extends Component {
         <h1>Tela do jogo</h1>
         <Header />
         {
-          isFetching ? <p>Loading</p>
+          !answers[0] ? <p>Loading</p>
             : (
               <div>
-                <h2 data-testid="question-category">{questions[question].category}</h2>
+                <h2 data-testid="question-category">{questions[questionNumber].category}</h2>
                 <p data-testid="question-text">
-                  {questions[question].question}
+                  {questions[questionNumber].question}
                 </p>
                 {' '}
                 {

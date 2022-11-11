@@ -19,6 +19,9 @@ export const requestTrivia = (token) => async (dispatch) => {
   dispatch(fetchAPI());
   try {
     // const tokenEndpoint = `https://odb.com/api.php?amount=5&token=${token}`;
+    // const tokenEndpoint = 'https://opentdb.com/api.php?amount=5&token=f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6';
+    // const tokenEndpoint = 'https://opentdb.com/api.php?amount=5&token=INVALID_TOKEN';
+
     const tokenEndpoint = `https://opentdb.com/api.php?amount=5&token=${token}`;
     const request = await fetch(tokenEndpoint);
     const response = await request.json();
