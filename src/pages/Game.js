@@ -52,6 +52,22 @@ class Game extends Component {
     });
   }
 
+  handleAnswer = ({ target }) => {
+    const { questions, questionNumber } = this.state;
+    // console.log(target.parentElement);
+    const parent1 = target.parentElement.childNodes;
+    parent1.forEach((item) => {
+      // item.textContent === questions[questionNumber].correct_answer
+      //   ? item.style.border = '3px solid rgb(6, 240, 15)'
+      //   : item.style.border = '3px solid red';
+      if (item.textContent === questions[questionNumber].correct_answer) {
+        item.style.border = '3px solid rgb(6, 240, 15)';
+      } else {
+        item.style.border = '3px solid red';
+      }
+    });
+  };
+
   render() {
     const {
       questions,
@@ -94,6 +110,7 @@ class Game extends Component {
                   {
                     shuffledAnswers.map((it, index) => (
                       <button
+                        onClick={ this.handleAnswer }
                         key={ index }
                         type="button"
                         data-testid={ it === questions[questionNumber]
