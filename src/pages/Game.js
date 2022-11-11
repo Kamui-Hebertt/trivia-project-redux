@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { requestTrivia } from '../redux/action/fetch';
 
+const TRES = 3;
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +23,14 @@ class Game extends Component {
     const tokenFromStorage = localStorage.getItem('token');
     await dispatch(requestTrivia(tokenFromStorage));
     const { erro, responseCode, questions } = this.props;
-    this.setState({ erro, responseCode, isFetching: false, questionNumber: 0, questions });
+    this.setState({
+      erro,
+      responseCode,
+      isFetching: false,
+      questionNumber: 0,
+      questions });
 
-    if (responseCode === 3 || erro) {
+    if (responseCode === TRES || erro) {
       localStorage.removeItem('token');
       history.push('/');
     }
@@ -32,6 +39,7 @@ class Game extends Component {
   render() {
     const {
       questions,
+      question,
       erro,
       responseCode,
       isFetching,
@@ -40,9 +48,12 @@ class Game extends Component {
     const answers = [questions[questionNumber]?.correct_answer,
       questions[questionNumber]?.incorrect_answers].flat().sort();
 
-    if (answers[0]) {
-      console.log(answers);
-    }
+    const shuffledAnswers = [];
+
+    do {
+      shuffledAnswers
+        .push(...answers.splice([Math.floor(Math.random() * answers.length)], 1));
+    } while (answers.length > 0);
 
     return (
 
@@ -50,21 +61,34 @@ class Game extends Component {
         <h1>Tela do jogo</h1>
         <Header />
         {
-          !answers[0] ? <p>Loading</p>
+          !shuffledAnswers[0] ? <p>Loading</p>
             : (
               <div>
-                <h2 data-testid="question-category">{questions[questionNumber].category}</h2>
+                <h2
+                  data-testid="question-category"
+                >
+                  {questions[questionNumber].category}
+
+                </h2>
                 <p data-testid="question-text">
                   {questions[questionNumber].question}
                 </p>
                 {' '}
-                {
-                  answers.map((elementQuestion, index) => (
-                    <li key={ index }>
-                      {elementQuestion}
-                    </li>
-                  ))
-                }
+                <div data-testid="answer-options">
+                  {
+                    shuffledAnswers.map((it, index) => (
+                      <button
+                        key={ index }
+                        type="button"
+                        data-testid={ it === questions[questionNumber]
+                          ?.correct_answer ? 'correct-answer'
+                          : `wrong-answer-${index}` }
+                      >
+                        {it}
+                      </button>
+                    ))
+                  }
+                </div>
 
               </div>
             )
