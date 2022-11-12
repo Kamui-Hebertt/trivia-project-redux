@@ -15,12 +15,38 @@ class Feedback extends Component {
     return 'Could be better...';
   };
 
+  handlePlayAgain = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
+    const { assertions, score } = this.props;
     return (
       <div>
         <h1>Pagina de Feedback</h1>
         <Header />
+        <h2>Resultados da partida:</h2>
+        <p>
+          Questões respondidas corretamente:
+          {' '}
+          <span data-testid="feedback-total-question">{ assertions }</span>
+        </p>
+
+        <p>
+          Pontuação final:
+          {' '}
+          <span data-testid="feedback-total-score">{ score }</span>
+        </p>
         <p data-testid="feedback-text">{this.renderScoreFeedback()}</p>
+
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handlePlayAgain }
+        >
+          Play Again
+        </button>
       </div>
     );
   }
@@ -28,10 +54,15 @@ class Feedback extends Component {
 
 const mapStateToProps = (store) => ({
   assertions: store.player.assertions,
+  score: store.player.score,
 });
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
