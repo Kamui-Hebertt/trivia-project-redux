@@ -36,9 +36,11 @@ class Game extends Component {
   async componentDidMount() {
     const { history, dispatch, level } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
-
-    const URL = `https://opentdb.com/api.php?amount=5&difficulty=${level}&token=${tokenFromStorage}`;
-    const response = await fetch(URL);
+    let endpoint = `https://opentdb.com/api.php?amount=5&token=${tokenFromStorage}`;
+    if (level) {
+      endpoint = `https://opentdb.com/api.php?amount=5&difficulty=${level}&token=${tokenFromStorage}`;
+    }
+    const response = await fetch(endpoint);
     const data = await response.json();
     const errorCode = 3;
     if (data.response_code === errorCode) {
