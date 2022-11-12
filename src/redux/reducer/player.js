@@ -1,4 +1,4 @@
-import USER from '../action/index';
+import { USER, UPDATE_SCORE } from '../action/index';
 
 const INITIAL_STATE = {
   name: '',
@@ -15,6 +15,11 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     gravatarEmail: action.state.userEmail,
 
   };
+  case UPDATE_SCORE:
+    return {
+      ...state,
+      score: state.score + action.payload,
+    };
   default: return state;
   }
 };
