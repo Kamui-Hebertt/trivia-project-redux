@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { userInfo } from '../redux/action';
+import { setGameDifficulty, userInfo } from '../redux/action';
 
 class Login extends Component {
   state = {
@@ -18,7 +18,12 @@ class Login extends Component {
   };
 
   handleChange = ({ target }) => {
-    this.setState({ [target.name]: target.value }, () => this.enableButton());
+    const { changeLevel } = this.props;
+    if (target.name === 'difficultyLevel') {
+      changeLevel(target.value);
+    } else {
+      this.setState({ [target.name]: target.value }, () => this.enableButton());
+    }
   };
 
   redirectTo = (str) => {
@@ -69,6 +74,18 @@ class Login extends Component {
             />
           </label>
 
+          <select
+            name="difficultyLevel"
+            id="level"
+            onChange={ this.handleChange }
+          >
+            <option value="" hidden>Dificuldade</option>
+            <option value="">Aleatória</option>
+            <option value="easy">Fácil</option>
+            <option value="medium">Normal</option>
+            <option value="hard">Díficil</option>
+          </select>
+
           <button
             type="button"
             disabled={ isDisabled }
@@ -92,6 +109,7 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch) => ({
   userData: (state) => dispatch(userInfo(state)),
+  changeLevel: (payload) => dispatch(setGameDifficulty(payload)),
 });
 
 Login.propTypes = { history: PropTypes.object }.isRequired;
