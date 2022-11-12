@@ -34,10 +34,10 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { history, dispatch } = this.props;
+    const { history, dispatch, level } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
 
-    const URL = `https://opentdb.com/api.php?amount=5&token=${tokenFromStorage}`;
+    const URL = `https://opentdb.com/api.php?amount=5&difficulty=${level}&token=${tokenFromStorage}`;
     const response = await fetch(URL);
     const data = await response.json();
     const errorCode = 3;
@@ -221,10 +221,14 @@ class Game extends Component {
   }
 }
 
+const mapStateToProps = (store) => ({
+  level: store.trivia.level,
+});
+
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
 }.isRequired;
 
-export default connect()(Game);
+export default connect(mapStateToProps)(Game);
