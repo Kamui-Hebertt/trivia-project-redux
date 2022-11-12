@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import { updateScore } from '../redux/action';
+import { newGame, updateScore } from '../redux/action';
 
 const DIFFICULTY_BONUS_SCORE = {
   hard: 3,
@@ -34,7 +34,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
 
     const URL = `https://opentdb.com/api.php?amount=5&token=${tokenFromStorage}`;
@@ -50,6 +50,8 @@ class Game extends Component {
       isFetching: false,
       questionNumber: 0,
     }, this.shuffleAnswers);
+
+    dispatch(newGame());
   }
 
   stopTimer = () => {
@@ -225,10 +227,4 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = (state) => ({
-  questions: state.trivia.questions,
-  erro: state.trivia.erro,
-  responseCode: state.trivia.responseCode,
-});
-
-export default connect(mapStateToProps)(Game);
+export default connect()(Game);
