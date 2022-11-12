@@ -1,8 +1,8 @@
-import { USER, UPDATE_SCORE } from '../action/index';
+import { USER, UPDATE_SCORE, START_NEW_GAME } from '../action/index';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
 };
@@ -18,7 +18,13 @@ const playerReducer = (state = INITIAL_STATE, action) => {
   case UPDATE_SCORE:
     return {
       ...state,
+      assertions: state.assertions + 1,
       score: state.score + action.payload,
+    };
+  case START_NEW_GAME:
+    return {
+      ...state,
+      score: 0,
     };
   default: return state;
   }
