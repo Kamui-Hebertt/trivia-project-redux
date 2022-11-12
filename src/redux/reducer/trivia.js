@@ -1,21 +1,15 @@
-import { FAILED_REQUEST, SUCESS_REQUEST } from '../action/fetch';
+import { GAME_DIFFICULTY } from '../action';
 
 const INITIAL_STATE = {
-  questions: {},
+  level: '',
 };
 
 const triviaReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SUCESS_REQUEST:
+  case GAME_DIFFICULTY:
     return {
       ...state,
-      questions: action.payload.results,
-      responseCode: action.payload.response_code,
-    };
-  case FAILED_REQUEST:
-    return {
-      ...state,
-      erro: action.payload,
+      level: action.payload,
     };
   default: return state;
   }
