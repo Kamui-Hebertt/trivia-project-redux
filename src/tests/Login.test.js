@@ -133,7 +133,7 @@ it('', () => {
 
 
 
-it('testando token', () => {
+it('testando token', async () => {
   global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve({
         "response_code": 0,
