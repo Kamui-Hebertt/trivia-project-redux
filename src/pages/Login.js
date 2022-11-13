@@ -33,16 +33,11 @@ class Login extends Component {
   };
 
   fetchToken = async () => {
-    try {
-      const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
-      const request = await fetch(tokenEndpoint);
-      const response = await request.json();
-      localStorage.setItem('token', response.token);
-      this.redirectTo('/playgame');
-    } catch (error) {
-      console.error(error.message);
-      this.redirectTo('/');
-    }
+    const tokenEndpoint = 'https://opentdb.com/api_token.php?command=request';
+    const request = await fetch(tokenEndpoint);
+    const response = await request.json();
+    localStorage.setItem('token', response.token);
+    this.redirectTo('/playgame');
   };
 
   render() {
