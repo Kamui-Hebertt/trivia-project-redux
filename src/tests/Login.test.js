@@ -1,9 +1,10 @@
-import { getByLabelText, getByRole, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Login from '../pages/Login';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 
 
 describe('Testa e verifica botões e camposno Login', () => {
@@ -112,9 +113,48 @@ it('', () => {
  
     expect(screen.getAllByRole('option').length).toBe(4)
   })
+
+  it('Testa se é possível selecionar dificuldade', ()=>{
+    renderWithRouterAndRedux(<App />)
+    const select =  screen.getByTestId('difficulty');
+    const easeOption = screen.getByTestId('easy');
+    expect(select).toBeInTheDocument();
+    userEvent.click(select);
+    userEvent.click(easeOption);
+   
+    expect(easeOption).toBeInTheDocument()
+    // expect(changeLevel(easeOption)).toBeCalled
+   
+    
+
+
+  })
 })
 
 
+
+it('testando token', () => {
+  global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({
+        "response_code": 0,
+        "response_message": "Token Generated Successfully!",
+        "token": "INVALID_TOKEN"
+      }),
+      })); 
+  const { history } = renderWithRouterAndRedux(<App />);
+  const buttonPlay1 = screen.getByRole('button', {name:/play/i})
+  const inputName = screen.getByPlaceholderText(/nome/i);
+  userEvent.type(inputName, 'mario')
+  const inputEmail2 = screen.getByTestId('input-gravatar-email');
+  userEvent.type(inputEmail2, 'example@hotmail.com');
+  userEvent.click(buttonPlay1);
+  const token = localStorage.getItem('token');
+  expect(token).toBeDefined();
+  const {location : {pathname}} =history
+
+  expect(pathname).toBe('/')
+ 
+})
 
 
 

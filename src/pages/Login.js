@@ -76,13 +76,14 @@ class Login extends Component {
           </label>
 
           <select
+            data-testid="difficulty"
             name="difficultyLevel"
             id="level"
             onChange={ this.handleChange }
           >
             <option value="" hidden>Dificuldade</option>
             <option value="">Aleatória</option>
-            <option value="easy">Fácil</option>
+            <option data-testid="easy" value="easy">Fácil</option>
             <option value="medium">Normal</option>
             <option value="hard" name="hard">Díficil</option>
           </select>
