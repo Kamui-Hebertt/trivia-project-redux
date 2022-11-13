@@ -65,7 +65,8 @@ class Login extends Component {
           <label htmlFor="nome">
             Insira seu nome:
             <input
-              type="nome"
+              placeholder="Digite seu nome"
+              type="text"
               id="nome"
               name="userName"
               value={ userName }
@@ -83,7 +84,7 @@ class Login extends Component {
             <option value="">Aleatória</option>
             <option value="easy">Fácil</option>
             <option value="medium">Normal</option>
-            <option value="hard">Díficil</option>
+            <option value="hard" name="hard">Díficil</option>
           </select>
 
           <button

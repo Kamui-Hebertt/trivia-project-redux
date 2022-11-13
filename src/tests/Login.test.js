@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { getByLabelText, getByRole, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Login from '../pages/Login';
@@ -55,11 +55,66 @@ describe('Testa e verifica botões e camposno Login', () => {
     await waitFor(()=>{
         expect(history.location.pathname).toBe('/playgame');
 
-    },{timeout : 3000})
+    },{timeout : 6000})
    
   
     
 })
     
-
+test ('', ()=>{
+  renderWithRouterAndRedux(<App /> );
+  const input = screen.getByRole('button' , { name : /Play/i});
+  expect(input).toBeInTheDocument()
+  const inputN = screen.getByPlaceholderText(/Digite seu nome/i);
+  expect(inputN).toBeInTheDocument();
+ 
 })
+
+test('', ()=> { 
+  renderWithRouterAndRedux(<App /> );
+  const inputEmail = screen.getByTestId('input-gravatar-email');
+
+expect(inputEmail).toBeInTheDocument();
+expect(inputEmail).toHaveAttribute('type', 'email');
+})
+
+test('', () => {
+  renderWithRouterAndRedux(<App />);
+  const inputName = screen.getByTestId('input-player-name');
+
+  expect(inputName).toBeInTheDocument();
+  expect(inputName).toHaveAttribute('type', 'text');
+});
+
+test('', () => {
+  renderWithRouterAndRedux(<App />);
+  const inputEmail2 = screen.getByTestId('input-gravatar-email');
+  userEvent.type(inputEmail2, '12');
+  const buttonPlay2 = screen.getByRole('button',{name : /Play/i} );
+    expect(buttonPlay2).toBeDisabled();
+
+
+});
+
+test('', () => {
+  renderWithRouterAndRedux(<App />);
+  const inputEmail2 = screen.getByTestId('input-gravatar-email');
+  userEvent.type(inputEmail2, '12');
+  const buttonPlay2 = screen.getByRole('button',{name : /Play/i} );
+    expect(buttonPlay2).toBeDisabled();
+
+
+});
+
+it('', () => {
+  renderWithRouterAndRedux(<App />)
+  expect(screen.getByRole('option', { name: /Díficil/i }).selected).toBe(false);
+ 
+    expect(screen.getAllByRole('option').length).toBe(4)
+  })
+})
+
+
+
+
+
