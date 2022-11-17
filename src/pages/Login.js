@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setGameDifficulty, userInfo } from '../redux/action';
+import setLocal from '../helpers/setStorage';
 
 class Login extends Component {
   state = {
@@ -37,6 +38,17 @@ class Login extends Component {
     const request = await fetch(tokenEndpoint);
     const response = await request.json();
     localStorage.setItem('token', response.token);
+  };
+
+  newGame = async () => {
+    const { userName, userEmail } = this.state;
+    await this.fetchToken();
+
+    setLocal({
+      name: userName,
+      gravatarEmail: userEmail,
+      score: 0 });
+
     this.redirectTo('/playgame');
   };
 
@@ -87,7 +99,7 @@ class Login extends Component {
             type="button"
             disabled={ isDisabled }
             data-testid="btn-play"
-            onClick={ this.fetchToken }
+            onClick={ this.newGame }
           >
             Play
           </button>
