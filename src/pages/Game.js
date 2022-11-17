@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import getLocal from '../helpers/getStorage';
+import setLocal from '../helpers/setStorage';
 import { newGame, updateScore } from '../redux/action';
 
 const DIFFICULTY_BONUS_SCORE = {
@@ -142,6 +144,21 @@ class Game extends Component {
     this.calcScore(target.textContent);
   };
 
+  deletePlayerPreviousData = () => {
+    const playersAlreadyInLocal = getLocal();
+    playersAlreadyInLocal.pop();
+
+    localStorage.setItem('playersRank', JSON.stringify(playersAlreadyInLocal));
+  };
+
+  updateCurrentPlayerScoreInLocalStorage = () => {
+    const { name, gravatarEmail, score } = this.props;
+    const newPlayerDataToSave = { name, gravatarEmail, score };
+    this.deletePlayerPreviousData();
+
+    setLocal(newPlayerDataToSave);
+  };
+
   handleNextQuestion = () => {
     const { questionNumber, questions } = this.state;
     const { history } = this.props;
@@ -156,6 +173,8 @@ class Game extends Component {
       countdownTimer: 30,
       isDisabled: false,
     }), () => this.shuffleAnswers());
+
+    this.updateCurrentPlayerScoreInLocalStorage();
   };
 
   render() {
@@ -224,6 +243,9 @@ class Game extends Component {
 }
 
 const mapStateToProps = (store) => ({
+  score: store.player.score,
+  name: store.player.name,
+  gravatarEmail: store.player.gravatarEmail,
   level: store.trivia.level,
 });
 
