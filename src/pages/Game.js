@@ -6,20 +6,14 @@ import getLocal from '../helpers/getStorage';
 import setLocal from '../helpers/setStorage';
 import { newGame, updateScore } from '../redux/action';
 
-const DIFFICULTY_BONUS_SCORE = {
-  hard: 3,
-  medium: 2,
-  easy: 1,
-};
+const DIFFICULTY_BONUS_SCORE = { hard: 3, medium: 2, easy: 1 };
 
 const UM_SEGUNDO = 1000;
 const CINCO_SEGUNDOS = 5000;
 const TRINTA_UM_SEGUNDOS = 31000;
 const PONTUCAO_ACERTO = 10;
 
-let startTime = null;
-let countdown5seg = null;
-let countdown30seg = null;
+let [startTime, countdown5seg, countdown30seg] = [null, null, null];
 
 class Game extends Component {
   constructor(props) {
@@ -38,9 +32,9 @@ class Game extends Component {
   async componentDidMount() {
     const { history, dispatch, level } = this.props;
     const tokenFromStorage = localStorage.getItem('token');
-    let endpoint = `https://opentdb.com/api.php?amount=5&token=${tokenFromStorage}`;
+    let endpoint = `https://opentdb.com/api.php?amount=5&encode=url3986&token=${tokenFromStorage}`;
     if (level) {
-      endpoint = `https://opentdb.com/api.php?amount=5&difficulty=${level}&token=${tokenFromStorage}`;
+      endpoint = `https://opentdb.com/api.php?amount=5&encode=url3986&difficulty=${level}&token=${tokenFromStorage}`;
     }
     const response = await fetch(endpoint);
     const data = await response.json();
@@ -116,11 +110,7 @@ class Game extends Component {
     const { dispatch } = this.props;
     const { correct_answer: correctAnswer, difficulty } = questions[questionNumber];
 
-    // console.log('Tempo restante:', countdownTimer);
-    // console.log('Resposta correta:', correctAnswer);
-    // console.log('Bonus por dificuldade:', DIFFICULTY_BONUS_SCORE[difficulty]);
-
-    if (answer === correctAnswer) {
+    if (answer === decodeURIComponent(correctAnswer)) {
       const pointsScored = PONTUCAO_ACERTO
       + (countdownTimer * DIFFICULTY_BONUS_SCORE[difficulty]);
 
@@ -132,7 +122,8 @@ class Game extends Component {
     const { questions, questionNumber } = this.state;
     const parent1 = target.parentElement.childNodes;
     parent1.forEach((item) => {
-      if (item.textContent === questions[questionNumber].correct_answer) {
+      if (item.textContent
+        === decodeURIComponent(questions[questionNumber].correct_answer)) {
         item.style.border = '3px solid rgb(6, 240, 15)';
       } else {
         item.style.border = '3px solid red';
@@ -163,7 +154,13 @@ class Game extends Component {
     const { questionNumber, questions } = this.state;
     const { history } = this.props;
 
+    this.updateCurrentPlayerScoreInLocalStorage();
+
     if (questionNumber === questions.length - 1) {
+      const playersAlreadyInLocal = getLocal();
+      const sortedRank = playersAlreadyInLocal.sort((a, b) => b.score > a.score);
+      localStorage.setItem('playersRank', JSON.stringify(sortedRank));
+      console.log(getLocal());
       history.push('/feedback');
     }
 
@@ -173,8 +170,6 @@ class Game extends Component {
       countdownTimer: 30,
       isDisabled: false,
     }), () => this.shuffleAnswers());
-
-    this.updateCurrentPlayerScoreInLocalStorage();
   };
 
   render() {
@@ -184,9 +179,7 @@ class Game extends Component {
       isFetching,
       questionNumber,
       shuffledAnswers } = this.state;
-
     return (
-
       <div>
         <h1>Tela do jogo</h1>
         <Header />
@@ -198,11 +191,11 @@ class Game extends Component {
                 <h2
                   data-testid="question-category"
                 >
-                  {questions[questionNumber].category}
+                  {decodeURIComponent(questions[questionNumber].category)}
 
                 </h2>
                 <p data-testid="question-text">
-                  {questions[questionNumber].question}
+                  {decodeURIComponent(questions[questionNumber].question)}
                 </p>
                 {' '}
                 <div data-testid="answer-options">
@@ -217,7 +210,7 @@ class Game extends Component {
                           ? 'correct-answer'
                           : `wrong-answer-${index}` }
                       >
-                        {it}
+                        {decodeURIComponent(it)}
                       </button>
                     ))
                   }
@@ -234,8 +227,7 @@ class Game extends Component {
                   </button>
                 )}
 
-              </div>
-            )
+              </div>)
         }
       </div>
     );
@@ -256,4 +248,3 @@ Game.propTypes = {
 }.isRequired;
 
 export default connect(mapStateToProps)(Game);
-// //
