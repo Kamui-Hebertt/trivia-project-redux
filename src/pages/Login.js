@@ -55,7 +55,7 @@ class Login extends Component {
   render() {
     const { isDisabled, userName, userEmail } = this.state;
     return (
-      <div>
+      <div className="loginForm">
         <form action="">
           <label htmlFor="email">
             Insira seu email:

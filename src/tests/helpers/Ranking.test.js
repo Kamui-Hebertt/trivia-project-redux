@@ -17,5 +17,19 @@ describe('testando tela de ranking', ()=> {
         const{ location : { pathname}} = history;
         expect(pathname).toBe('/');
     })
+    test('testando Ranking',()=>{
+       const {history}  = renderWithRouterAndRedux(<App />);
+        const inputEmail = screen.getByTestId('input-gravatar-email');
+        const inputName = screen.getByTestId('input-player-name');
+        const buttonPlay3 = screen.getByRole('button',{name : /Play/i} );
+        userEvent.type(inputEmail, 'example@gmail.com');
+        userEvent.type(inputName, 'Ueda');
+        userEvent.click(buttonPlay3);
+        act(()=>{history.push('/ranking');})
+        const email = screen.getByText(/example@gmail.com/i)
+        expect(email).toBeInTheDocument();
+        
+
+    } )
    
 })
