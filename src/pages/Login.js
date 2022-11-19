@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setGameDifficulty, userInfo } from '../redux/action';
 import setLocal from '../helpers/setStorage';
+import loginLogo from '../assets/logoTrivia.png';
 
 class Login extends Component {
   state = {
@@ -55,64 +56,73 @@ class Login extends Component {
   render() {
     const { isDisabled, userName, userEmail } = this.state;
     return (
-      <div className="loginForm">
-        <form action="">
-          <label htmlFor="email">
-            Insira seu email:
-            <input
-              type="email"
-              id="email"
-              name="userEmail"
-              value={ userEmail }
-              data-testid="input-gravatar-email"
+
+      <main className="main">
+        <div className="imageLogo">
+          <img src={ loginLogo } alt="logo" />
+        </div>
+        <div className="loginForm">
+          <form action="">
+            <label htmlFor="email">
+              Email:
+              <input
+                type="email"
+                id="email"
+                placeholder="Insira seu email"
+                name="userEmail"
+                value={ userEmail }
+                data-testid="input-gravatar-email"
+                onChange={ this.handleChange }
+              />
+            </label>
+
+            <label htmlFor="nome">
+              Nome:
+              <input
+                placeholder="Digite seu nome"
+                type="text"
+                id="nome"
+                name="userName"
+                value={ userName }
+                data-testid="input-player-name"
+                onChange={ this.handleChange }
+              />
+            </label>
+
+            <select
+              className="form-select"
+              aria-label=".form-select-lg example"
+              data-testid="difficulty"
+              name="difficultyLevel"
+              id="level"
               onChange={ this.handleChange }
-            />
-          </label>
+            >
+              <option value="" hidden>Dificuldade</option>
+              <option value="">Aleatória</option>
+              <option data-testid="easy" value="easy">Fácil</option>
+              <option value="medium">Normal</option>
+              <option value="hard" name="hard">Díficil</option>
+            </select>
 
-          <label htmlFor="nome">
-            Insira seu nome:
-            <input
-              placeholder="Digite seu nome"
-              type="text"
-              id="nome"
-              name="userName"
-              value={ userName }
-              data-testid="input-player-name"
-              onChange={ this.handleChange }
-            />
-          </label>
+            <button
+              type="button"
+              disabled={ isDisabled }
+              data-testid="btn-play"
+              onClick={ this.newGame }
+            >
+              Play
+            </button>
 
-          <select
-            data-testid="difficulty"
-            name="difficultyLevel"
-            id="level"
-            onChange={ this.handleChange }
-          >
-            <option value="" hidden>Dificuldade</option>
-            <option value="">Aleatória</option>
-            <option data-testid="easy" value="easy">Fácil</option>
-            <option value="medium">Normal</option>
-            <option value="hard" name="hard">Díficil</option>
-          </select>
-
-          <button
-            type="button"
-            disabled={ isDisabled }
-            data-testid="btn-play"
-            onClick={ this.newGame }
-          >
-            Play
-          </button>
-
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ () => this.redirectTo('/settings') }
-          >
-            Configurações
-          </button>
-        </form>
-      </div>
+            <button
+              type="button"
+              data-testid="btn-settings"
+              onClick={ () => this.redirectTo('/settings') }
+            >
+              Configurações
+            </button>
+          </form>
+        </div>
+      </main>
     );
   }
 }

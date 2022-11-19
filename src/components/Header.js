@@ -8,7 +8,7 @@ class Header extends Component {
     const { name, score, email } = this.props;
     const hash1 = md5(email).toString();
     return (
-      <div>
+      <div className="header">
         <img
           data-testid="header-profile-picture"
           src={ `https://www.gravatar.com/avatar/${hash1}` }

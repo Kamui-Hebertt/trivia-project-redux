@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import getLocal from '../helpers/getStorage';
 import setLocal from '../helpers/setStorage';
 import { newGame, updateScore } from '../redux/action';
+import logoImage from '../assets/trybe.png';
 
 const DIFFICULTY_BONUS_SCORE = { hard: 3, medium: 2, easy: 1 };
-
 const UM_SEGUNDO = 1000;
 const CINCO_SEGUNDOS = 5000;
 const TRINTA_UM_SEGUNDOS = 31000;
@@ -163,7 +162,6 @@ class Game extends Component {
       console.log(getLocal());
       history.push('/feedback');
     }
-
     this.setState((prev) => ({
       questionNumber: prev.questionNumber + 1,
       shuffledAnswers: [],
@@ -181,27 +179,30 @@ class Game extends Component {
       shuffledAnswers } = this.state;
     return (
       <div>
-        <h1>Tela do jogo</h1>
         <Header />
         {
           isFetching
             ? <p>Loading</p>
             : (
-              <div>
-                <h2
-                  data-testid="question-category"
-                >
-                  {decodeURIComponent(questions[questionNumber].category)}
+              <div className="wrap">
+                <div className="questions">
+                  <h2
+                    data-testid="question-category"
+                    id="questionTitle"
+                  >
+                    {decodeURIComponent(questions[questionNumber].category)}
 
-                </h2>
-                <p data-testid="question-text">
-                  {decodeURIComponent(questions[questionNumber].question)}
-                </p>
-                {' '}
-                <div data-testid="answer-options">
+                  </h2>
+                  <p data-testid="question-text">
+                    {decodeURIComponent(questions[questionNumber].question)}
+                  </p>
+                  {' '}
+                </div>
+                <div data-testid="answer-options" className="answer">
                   {
                     shuffledAnswers.map((it, index) => (
                       <button
+                        className="testbtn"
                         onClick={ this.handleAnswer }
                         disabled={ isDisabled }
                         key={ index }
@@ -215,25 +216,33 @@ class Game extends Component {
                     ))
                   }
                 </div>
-
-                { isDisabled
-                && (
-                  <button
-                    type="button"
-                    data-testid="btn-next"
-                    onClick={ this.handleNextQuestion }
-                  >
-                    Next
-                  </button>
-                )}
-
               </div>)
         }
+        <div className="cotainerFooter">
+          <div className="footer">
+            <img src={ logoImage } alt="logo" />
+          </div>
+          <div className="btnFooter">
+            { isDisabled
+        && (
+
+          <div className="next">
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleNextQuestion }
+            >
+              Next
+            </button>
+          </div>
+
+        )}
+          </div>
+        </div>
       </div>
     );
   }
 }
-
 const mapStateToProps = (store) => ({
   score: store.player.score,
   name: store.player.name,
@@ -241,10 +250,5 @@ const mapStateToProps = (store) => ({
   level: store.trivia.level,
 });
 
-Game.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-}.isRequired;
-
+Game.propTypes = {}.isRequired;
 export default connect(mapStateToProps)(Game);
