@@ -2,11 +2,15 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins';
-  background-image: linear-gradient(to right, rgb(166, 138, 219), rgb(61, 27, 124), rgb(19, 1, 24));
-
+  font-family: "Poppins";
+  background-image: linear-gradient(
+    to right,
+    rgb(166, 138, 219),
+    rgb(61, 27, 124),
+    rgb(19, 1, 24)
+  );
 }
- 
+
 .main {
   align-items: center;
   display: flex;
@@ -16,8 +20,7 @@ body {
 }
 
 .imageLogo img {
-
- margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .loginForm {
@@ -44,11 +47,9 @@ input {
   gap: 10px;
   border: 1px solid #7ce079;
   border-radius: 5px;
-
 }
 
 button {
-
   display: flex;
   align-items: center;
   margin-bottom: 7px;
@@ -58,13 +59,13 @@ button {
   left: 380px;
   top: 364px;
   justify-content: center;
-  color:#ffffff;
+  color: #ffffff;
   text-align: center;
   letter-spacing: 0.12em;
-  background: #2FC18C;
+  background: #2fc18c;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
-  border: 1px solid #2FC18C;
+  border: 1px solid #2fc18c;
 }
 
 .testbtn {
@@ -74,11 +75,9 @@ button {
   height: 45px;
   border-radius: 100px;
   background-color: #fff;
-  color:rgba(0, 0, 0, 0.897);
+  color: rgba(0, 0, 0, 0.897);
   box-shadow: 1px 4px 13px 2px rgba(0 0 0 20%);
-
 }
-
 
 select {
   margin-bottom: 7px;
@@ -103,7 +102,6 @@ select {
   display: flex;
   justify-content: flex-end;
   margin-left: 50px;
-
 }
 
 .header {
@@ -112,7 +110,7 @@ select {
   height: 113px;
   justify-content: center;
   align-items: center;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 .header img {
@@ -124,7 +122,6 @@ select {
 }
 
 .wrap {
-  
   border: 1px solid black;
   display: flex;
   align-items: center;
@@ -143,7 +140,7 @@ select {
   flex-wrap: wrap;
   background-color: #fff;
   flex-direction: line;
- border-radius: 10px;
+  border-radius: 10px;
 }
 
 .answer {
@@ -158,13 +155,12 @@ select {
 .cotainerFooter {
   width: 100vw;
   height: 100px;
-  
+
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #3C1B7A;
+  background-color: #3c1b7a;
 }
-
 
 .footer img {
   width: 50px;
@@ -172,7 +168,7 @@ select {
   border: 1px solid red;
 }
 
-#questionTitle{
+#questionTitle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,5 +178,104 @@ select {
   height: 45px;
   border-radius: 100px;
   margin-top: -220px;
+}
 
+/* detalher de estilo (sobreescrita) */
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+/* header */
+.header {
+  font-weight: 700;
+  justify-content: flex-start;
+  padding-left: 50px;
+}
+
+.header img {
+  width: 65px;
+  height: auto;
+  margin: 0 10px 0;
+}
+
+/* game */
+.wrap {
+  padding: 100px;
+  border: none;
+}
+
+.answer {
+  width: auto;
+  border: none;
+  position: relative;
+}
+
+#questionTitle {
+  margin-top: -190px;
+}
+
+/* login */
+button:disabled {
+  background-color: rgb(199, 199, 199);
+  color: grey;
+  border: 0;
+  cursor: not-allowed;
+  transition: ease-in 0.2s;
+}
+
+.loginForm {
+  padding: 40px;
+  height: auto;
+  width: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input,
+form select,
+form button {
+  width: 500px;
+  height: 50px;
+  padding: 0 0 0 10px;
+}
+
+form button {
+  transition: ease-in 0.2s;
+  font-weight: 700;
+}
+
+form button:not(:disabled):hover {
+  filter: contrast(1.5);
+}
+
+/* feedback */
+.feed {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: fit-content;
+  margin-inline: auto;
+  margin-top: 100px;
+}
+
+/* footer */
+.cotainerFooter {
+  position: fixed;
+  bottom: 0;
+  justify-content: space-between;
+  padding-inline: 50px;
+}
+
+.footer img {
+  border: 0;
+  height: auto;
+  width: 40px;
 }

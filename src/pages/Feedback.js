@@ -23,9 +23,9 @@ class Feedback extends Component {
   render() {
     const { assertions, score } = this.props;
     return (
-      <div>
-        <h1>Pagina de Feedback</h1>
-        <Header />
+      <div className="feed">
+        {/* <h1>Pagina de Feedback</h1>
+        <Header /> */}
         <h2>Resultados da partida:</h2>
         <p>
           Questões respondidas corretamente:

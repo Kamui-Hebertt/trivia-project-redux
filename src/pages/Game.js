@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
@@ -25,6 +26,7 @@ class Game extends Component {
       countdownTimer: 30,
       shuffledAnswers: [],
       isDisabled: false,
+      showAnswers: false,
     };
   }
 
@@ -42,11 +44,14 @@ class Game extends Component {
       localStorage.removeItem('token');
       history.push('/');
     }
-    this.setState({
-      questions: data.results,
-      isFetching: false,
-      questionNumber: 0,
-    }, this.shuffleAnswers);
+    this.setState(
+      {
+        questions: data.results,
+        isFetching: false,
+        questionNumber: 0,
+      },
+      this.shuffleAnswers,
+    );
 
     dispatch(newGame());
   }
@@ -58,8 +63,10 @@ class Game extends Component {
   };
 
   gettingReady = () => {
+    this.setState({ showAnswers: false });
     this.stopTimer();
     countdown5seg = setTimeout(() => {
+      this.setState({ showAnswers: true });
       this.countDown();
     }, CINCO_SEGUNDOS);
   };
@@ -92,12 +99,15 @@ class Game extends Component {
 
     if (!shuffledAnswers[0]) {
       const shufflingAnswers = [];
-      const answers = [questions[questionNumber]?.correct_answer,
-        questions[questionNumber]?.incorrect_answers].flat();
+      const answers = [
+        questions[questionNumber]?.correct_answer,
+        questions[questionNumber]?.incorrect_answers,
+      ].flat();
 
       do {
-        shufflingAnswers
-          .push(...answers.splice([Math.floor(Math.random() * answers.length)], 1));
+        shufflingAnswers.push(
+          ...answers.splice([Math.floor(Math.random() * answers.length)], 1),
+        );
       } while (answers.length > 0);
 
       this.setState({ shuffledAnswers: shufflingAnswers }, () => this.gettingReady());
@@ -111,7 +121,8 @@ class Game extends Component {
 
     if (answer === decodeURIComponent(correctAnswer)) {
       const pointsScored = PONTUCAO_ACERTO
-      + (countdownTimer * DIFFICULTY_BONUS_SCORE[difficulty]);
+      + countdownTimer
+      * DIFFICULTY_BONUS_SCORE[difficulty];
 
       dispatch(updateScore(pointsScored));
     }
@@ -121,11 +132,19 @@ class Game extends Component {
     const { questions, questionNumber } = this.state;
     const parent1 = target.parentElement.childNodes;
     parent1.forEach((item) => {
-      if (item.textContent
-        === decodeURIComponent(questions[questionNumber].correct_answer)) {
-        item.style.border = '3px solid rgb(6, 240, 15)';
+      if (
+        item.textContent
+        === decodeURIComponent(questions[questionNumber].correct_answer)
+      ) {
+        item.style.border = '3px solid rgb(52, 193, 143)';
+        item.style.backgroundColor = 'rgb(52, 193, 143)';
+        item.style.color = 'white';
+        item.style.fontWeight = '700';
       } else {
-        item.style.border = '3px solid red';
+        item.style.border = '3px solid rgb(255, 110, 110)';
+        item.style.backgroundColor = 'rgb(255, 110, 110)';
+        item.style.color = 'white';
+        item.style.fontWeight = '700';
       }
     });
 
@@ -157,17 +176,22 @@ class Game extends Component {
 
     if (questionNumber === questions.length - 1) {
       const playersAlreadyInLocal = getLocal();
-      const sortedRank = playersAlreadyInLocal.sort((a, b) => b.score > a.score);
+      const sortedRank = playersAlreadyInLocal.sort(
+        (a, b) => b.score > a.score,
+      );
       localStorage.setItem('playersRank', JSON.stringify(sortedRank));
       console.log(getLocal());
       history.push('/feedback');
     }
-    this.setState((prev) => ({
-      questionNumber: prev.questionNumber + 1,
-      shuffledAnswers: [],
-      countdownTimer: 30,
-      isDisabled: false,
-    }), () => this.shuffleAnswers());
+    this.setState(
+      (prev) => ({
+        questionNumber: prev.questionNumber + 1,
+        shuffledAnswers: [],
+        countdownTimer: 30,
+        isDisabled: false,
+      }),
+      () => this.shuffleAnswers(),
+    );
   };
 
   render() {
@@ -176,67 +200,82 @@ class Game extends Component {
       isDisabled,
       isFetching,
       questionNumber,
-      shuffledAnswers } = this.state;
+      shuffledAnswers,
+      countdownTimer,
+      showAnswers,
+    } = this.state;
     return (
       <div>
-        <Header />
-        {
-          isFetching
-            ? <p>Loading</p>
-            : (
-              <div className="wrap">
-                <div className="questions">
-                  <h2
-                    data-testid="question-category"
-                    id="questionTitle"
+        <Header countdownTimer={ countdownTimer } />
+        {isFetching ? (
+          <p>Loading</p>
+        )
+          : (
+            <div className="wrap">
+              <div className="questions">
+                <h2 data-testid="question-category" id="questionTitle">
+                  {decodeURIComponent(questions[questionNumber].category)}
+                </h2>
+                <p data-testid="question-text">
+                  {decodeURIComponent(questions[questionNumber].question)}
+                </p>
+                {' '}
+              </div>
+              <div data-testid="answer-options" className="answer">
+                {shuffledAnswers.map((it, index) => (
+                  <button
+                    className={
+                      it === questions[questionNumber]?.correct_answer
+                        ? 'correct testbtn'
+                        : 'wrong testbtn'
+                    }
+                    onClick={ this.handleAnswer }
+                    disabled={ isDisabled }
+                    key={ index }
+                    type="button"
+                    data-testid={
+                      it === questions[questionNumber]?.correct_answer
+                        ? 'correct-answer'
+                        : `wrong-answer-${index}`
+                    }
+                    style={ showAnswers
+                      ? { color: 'black', transition: 'ease-out .3s' }
+                      : { color: 'transparent',
+                        textShadow: '0 0 8px #000' } }
                   >
-                    {decodeURIComponent(questions[questionNumber].category)}
-
-                  </h2>
-                  <p data-testid="question-text">
-                    {decodeURIComponent(questions[questionNumber].question)}
-                  </p>
-                  {' '}
-                </div>
-                <div data-testid="answer-options" className="answer">
-                  {
-                    shuffledAnswers.map((it, index) => (
-                      <button
-                        className="testbtn"
-                        onClick={ this.handleAnswer }
-                        disabled={ isDisabled }
-                        key={ index }
-                        type="button"
-                        data-testid={ it === questions[questionNumber]?.correct_answer
-                          ? 'correct-answer'
-                          : `wrong-answer-${index}` }
-                      >
-                        {decodeURIComponent(it)}
-                      </button>
-                    ))
-                  }
-                </div>
-              </div>)
-        }
+                    {decodeURIComponent(it)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         <div className="cotainerFooter">
           <div className="footer">
             <img src={ logoImage } alt="logo" />
           </div>
           <div className="btnFooter">
-            { isDisabled
-        && (
-
-          <div className="next">
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.handleNextQuestion }
-            >
-              Next
-            </button>
-          </div>
-
-        )}
+            {isDisabled
+              ? (
+                <div className="next">
+                  <button
+                    type="button"
+                    // eslint-disable-next-line max-lines
+                    data-testid="btn-next"
+                    onClick={ this.handleNextQuestion }
+                  >
+                    Next
+                  </button>
+                </div>
+              )
+              : (
+                <p
+                  style={ countdownTimer >= 6
+                    ? { color: 'white', fontSize: '30px' }
+                    : { color: 'red', fontSize: '30px', transition: 'ease-in .2s' } }
+                >
+                  {countdownTimer}
+                </p>
+              ) }
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ class Ranking extends Component {
     return (
       <div>
         <h1 data-testid="ranking-title">
-          Página de Ranking
+          Ranking
         </h1>
 
         <div>

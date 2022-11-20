@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { name, score, email } = this.props;
+    const { name, score, email, countdownTimer } = this.props;
     const hash1 = md5(email).toString();
     return (
       <div className="header">
+        <div />
         <img
           data-testid="header-profile-picture"
           src={ `https://www.gravatar.com/avatar/${hash1}` }
@@ -17,9 +18,7 @@ class Header extends Component {
         />
         <p data-testid="header-player-name">{name}</p>
         <p>
-          Pontuação :
-          {' '}
-          <span data-testid="header-score">{score}</span>
+          <span data-testid="header-score">{`(${score} pontos)`}</span>
         </p>
       </div>
     );
