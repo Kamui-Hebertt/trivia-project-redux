@@ -212,11 +212,23 @@ select {
   position: relative;
 }
 
+.questions {
+  position: relative;
+}
+
+.questions p {
+  text-align: center;
+}
+
 #questionTitle {
-  margin-top: -190px;
+  position: absolute;
+  top: 200px;
 }
 
 /* login */
+main {
+  margin-top: -40px;
+}
 button:disabled {
   background-color: rgb(199, 199, 199);
   color: grey;
