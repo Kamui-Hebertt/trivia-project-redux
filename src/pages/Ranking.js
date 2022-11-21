@@ -29,28 +29,37 @@ class Ranking extends Component {
     const sortAlreadySortedRank = rank.sort((a, b) => b.score - a.score);
     return (
       <div>
-        <h1 data-testid="ranking-title">
+        <h1 className="title" data-testid="ranking-title">
           Ranking
         </h1>
 
-        <div>
+        <div className="container__ranking">
           {sortAlreadySortedRank?.map((player, index) => (
-            <div key={ index }>
+            <div className="card__player" key={ index }>
               <img src={ `https://www.gravatar.com/avatar/${md5(player.gravatarEmail).toString()}` } alt={ `Jogador ${player.name}` } />
 
-              <p data-testid={ `player-name-${index}` }>{player.name}</p>
-              <p data-testid={ `player-score-${index}` }>{player.score}</p>
+              <div>
+                <p
+                  className="player__name"
+                  data-testid={ `player-name-${index}` }
+                >
+                  {player.name}
+                </p>
+                <p data-testid={ `player-score-${index}` }>{player.score}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ this.pressToBeBackBtn }
-        >
-          Voltar para a página inicial
-        </button>
+        <div className="footer__button">
+          <button
+            type="button"
+            data-testid="btn-go-home"
+            onClick={ this.pressToBeBackBtn }
+          >
+            Voltar para a página inicial
+          </button>
+        </div>
 
       </div>
     );
