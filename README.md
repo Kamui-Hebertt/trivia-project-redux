@@ -10,7 +10,7 @@ In this project we developed a recipe web site which is also a responsive for ov
 
 - RTL tests was used.
 
-project link/deployment: 
+project link/deployment: trivia-project-redux.vercel.app/
 
 
 
@@ -31,4 +31,4 @@ Neste projeto desenvolvemos um site de receitas que também é responsivo para m
 
 - Testes em Rtl também foram aplicados.
 
-link do projeto/deploy: 
+link do projeto/deploy: trivia-project-redux.vercel.app/
