@@ -1,13 +1,34 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+In this project we developed a recipe web site which is also a responsive for over 4 types of mobile screen.
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+- A questions external API was used to build this project.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+- Redux was used in this project.
+
+- This project contains over 4 pages.
+
+- This project was developed by me and my team.
+
+- RTL tests was used.
+
+project link/deployment: 
+
+
+
+------------------------------------
+
+Pt:
+
+
+Neste projeto desenvolvemos um site de receitas que também é responsivo para mais de 4 tipos de telas de celular.
+
+- Uma API externa de perguntas foi usada para construir este projeto.
+
+- feito com redux.
+
+- este projeto contém mais de 4 páginas.
+
+- Este projeto foi desenvolvido por mim e minha equipe.
+
+- Testes em Rtl também foram aplicados.
+
+link do projeto/deploy: 
