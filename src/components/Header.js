@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 class Header extends Component {
   render() {
-    const { name, score, email, countdownTimer } = this.props;
+    const { name, score, email } = this.props;
     const hash1 = md5(email).toString();
     return (
       <div className="header">

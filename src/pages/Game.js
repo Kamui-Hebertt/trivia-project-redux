@@ -12,7 +12,7 @@ const UM_SEGUNDO = 1000;
 const CINCO_SEGUNDOS = 5000;
 const TRINTA_UM_SEGUNDOS = 31000;
 const PONTUCAO_ACERTO = 10;
-
+const six = 6;
 let [startTime, countdown5seg, countdown30seg] = [null, null, null];
 
 class Game extends Component {
@@ -269,7 +269,7 @@ class Game extends Component {
               )
               : (
                 <p
-                  style={ countdownTimer >= 6
+                  style={ countdownTimer >= six
                     ? { color: 'white', fontSize: '30px' }
                     : { color: 'red', fontSize: '30px', transition: 'ease-in .2s' } }
                 >
